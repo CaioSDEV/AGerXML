@@ -1,0 +1,17 @@
+@if(flashMessages.has('success'))
+<div class="flex justify-center">
+	<div class="w-fit flex flex-col items-center bg-green-100 border-l-4 border-green-500 text-green-700 px-4 pb-2 mt-4"
+			 role="alert">
+		<p class="font-bold">Sucesso</p>
+		<p class="text-sm">{{ flashMessages.get('success') }}</p>
+	</div>
+</div>
+@elseif(flashMessages.has('error'))
+<div class="flex justify-center">
+	<div class="w-fit flex flex-col items-center bg-red-100 border-l-4 border-red-500 text-red-700 px-4 pb-2 mt-4"
+			 role="alert">
+		<p class="font-bold">Erro</p>
+		<p class="text-sm">{{ flashMessages.get('error') }}</p>
+	</div>
+</div>
+@endif

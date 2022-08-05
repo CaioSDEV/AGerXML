@@ -1,146 +1,195 @@
-<div class="container">
-	<h4 class="mx-auto" style="width:max-content"><span
-			class="badge badge-primary"
-		>Clientes</span></h4>
-	<div>
-		<a
-			href="#"
-			class="btn btn-info btn-sm mb-2"
-			type="button"
-			id="test"
-			onClick="javascript:fnExcelReport();"
-		>Exportar para Excel</a>
-		<a
-			href="/client/addnew"
-			class="btn btn-success btn-sm float-right"
-			role="button"
-			aria-pressed="true"
-		>Novo</a>
-	</div>
+@include('partials/header')
 
-	<table class="table table-striped table-bordered table-hover table-sm">
-		<thead class="thead-dark">
-			<tr class="text-center">
-				<th scope="col">#</th>
-				<th scope="col">Nome</th>
-				<th scope="col">CNPJ</th>
-				<th scope="col">Telefone</th>
-				<th scope="col">Sistema</th>
-				<th scope="col">Ativo?</th>
-				<th scope="col">Opções</th>
-			</tr>
-		</thead>
-		<tbody>
+<div class="leading-loose">
 
-				<tr>
-					<th class="text-center">#</th>
-					<td style="width: max-content">{{title}}</td>
-					<td class="text-nowrap" id="cnpj">{{cnpj}}</td>
+  <p
+     class="text-center text-lg font-bold bg-blue-500 text-white rounded w-fit mx-auto px-3">
+    Clientes</p>
 
-						<td class="text-nowrap">{{fone}}</td>
+  @include('partials/flashMessage')
 
-						<td class="text-nowrap">{{cel}}</td>
+  <div class="flex justify-between">
+    <a href="#"
+       class="bg-yellow-500 text-white rounded px-2 py-1 text-sm hover:bg-yellow-800"
+       type="button" id="pdf">Exportar
+      para Excel</a>
+    <a href="/clients/create"
+       class="bg-green-600 text-white rounded px-2 py-1 text-sm hover:bg-green-800 ">
+      Novo Cliente
+    </a>
+  </div>
 
+  <div class="bg-gray-50 my-3 px-4 pb-4 rounded">
+    <div class="text-center py-1 pb-3">
+      <input class="text-center text-gray-500 border-b border-b-gray-800 bg-transparent focus:outline-none placeholder:italic"
+             type="text" id="searchName" placeholder="Pesquisar nome" />
+      <input class="cnpjSearch text-center text-gray-500 border-b border-b-gray-800 bg-transparent focus:outline-none placeholder:italic"
+             type="text" id="searchCnpj" placeholder="Pesquisar CNPJ" />
+      <input class="text-center text-gray-500 border-b border-b-gray-800 bg-transparent focus:outline-none placeholder:italic"
+             type="text" id="searchSystem" placeholder="Pesquisar sistema" />
+    </div>
 
-						<td class="text-center">Sim</td>
+    <div class="overflow-y-auto max-h-96">
+      <table id="myTable" class="border border-gray-800 text-center mx-auto">
+        <thead class="border-b border-b-gray-800">
+          <tr class="bg-slate-800/75 text-white">
+            <th scope="col" class="text-sm font-bold text-center px-2">#</th>
+            <th scope="col" class="text-sm font-bold text-center px-2">Nome</th>
+            <th scope="col" class="text-sm font-bold text-center px-2">CNPJ</th>
+            <th scope="col" class="text-sm font-bold text-center px-2">Telefone
+            </th>
+            <th scope="col" class="text-sm font-bold text-center px-2">Sistema
+            </th>
+            <th scope="col" class="text-sm font-bold text-center px-2">Ativo?
+            </th>
+            <th scope="col" class="text-sm font-bold text-center px-2">Ações
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          @each((client, index) in clients)
+          <tr class="border-b border-b-gray-800 font-medium">
+            <td
+                class="text-sm text-gray-900 px-2 whitespace-nowrap border-r border-r-gray-800">
+              {{ index + 1 }}
+            </td>
 
-						<td class="text-center">Não</td>
+            <td
+                class="text-sm text-left text-gray-900 px-1 whitespace-normal border-r border-r-gray-800 flex-wrap">
+              {{ client.name }}
+            </td>
 
-					<td class="d-flex justify-content-center">
-						<form action="/client/code/{{_id}}?_method=PUT" method="POST">
-							<input
-								type="hidden"
-								class="form-control"
-								name="active"
-								value="{{active}}"
-							/>
+            <td
+                class="cnpj text-sm text-gray-900 px-1 whitespace-nowrap border-r border-r-gray-800">
+              {{ client.cnpj }}
+            </td>
 
-								<button
-									type="submit"
-									class="btn btn-danger btn-sm mr-2"
-									role="button"
-									aria-pressed="true"
-								>
-									Desativar
-								</button>
+            <td
+                class="dynamicPhone text-sm text-gray-900 px-1 whitespace-nowrap border-r border-r-gray-800">
+              @if(client.phone === '(00) 0000-0000')
+              @if(client.cellphone === '(00) 00000-0000')
+              Não informado
+              @else
+              {{ client.cellphone }}
+              @end
+              @else
+              {{ client.phone }}
+              @end
+            </td>
 
+            <td
+                class="text-sm text-gray-900 px-1 whitespace-nowrap border-r border-r-gray-800">
+              {{ client.system}}
+            </td>
 
-						</form>
+            @if(client.status)
+            <td
+                class="text-sm px-1 whitespace-nowrap border-r border-r-gray-800 text-white bg-green-500">
+              Sim</td>
+            @else
+            <td
+                class="text-sm px-1 whitespace-nowrap border-r border-r-gray-800 text-white bg-red-600">
+              Não</td>
+            @end
 
-						<a
-							type="submit"
-							role="button"
-							href="/client/updt/{{_id}}"
-							class="btn btn-success btn-sm"
-						>Editar</a>
-					</td>
-				</tr>
+            <td>
+              <div class="flex px-1 whitespace-nowrap space-x-1">
+                <a href="/clients/{{client.id}}"
+                   class="bg-yellow-500 hover:bg-yellow-700 text-white rounded p-0.5">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6"
+                       viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+                    <path fill-rule="evenodd"
+                          d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"
+                          clip-rule="evenodd" />
+                  </svg>
+                </a>
 
-		</tbody>
-	</table>
+                <a href="/clients/{{client.id}}/edit"
+                   class="bg-blue-600 hover:bg-blue-700 text-white rounded p-0.5">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6"
+                       viewBox="0 0 20 20" fill="currentColor">
+                    <path
+                          d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" />
+                    <path fill-rule="evenodd"
+                          d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z"
+                          clip-rule="evenodd" />
+                  </svg>
+                </a>
+
+                {{-- <form action="/clients/{{client.id}}?_method=DELETE"
+                      method="POST" class="flex">
+                  <button type="submit"
+                          class="bg-yellow-800 hover:bg-yellow-900 text-white rounded p-0.5"
+                          onclick="return confirm('Deseja realmente excluir o cliente?')">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6"
+                         viewBox="0 0 20 20" fill="currentColor">
+                      <path fill-rule="evenodd"
+                            d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
+                            clip-rule="evenodd" />
+                    </svg>
+                  </button>
+                </form> --}}
+
+                <form action="/clients/{{client.id}}/status?_method=PUT"
+                      method="POST" class="flex">
+                  @if(client.status)
+                  <button type="submit"
+                          class="bg-red-600 hover:bg-red-700 text-white rounded p-0.5"
+                          onclick="return confirm('Deseja realmente desativar o cliente?')">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6"
+                         fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                         stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
+                    </svg>
+                  </button>
+                  @else
+                  <button type="submit"
+                          class="bg-green-600 hover:bg-green-700 text-white rounded p-0.5"
+                          onclick="return confirm('Deseja realmente desativar o cliente?')">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6"
+                         fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                         stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                    </svg>
+                  </button>
+                  @end
+                </form>
+              </div>
+            </td>
+          </tr>
+          @end
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>
 
 <table id="myTableHidden" hidden>
-	<thead>
-		<th>Nome</th>
-		<th>CNPJ</th>
-		<th>Celular</th>
-		<th>Telefone</th>
-		<th>Sistema</th>
-		<th>Ativo</th>
-	</thead>
-	<tbody>
-
-			<tr>
-				<td>{{title}}</td>
-				<td id="cnpj">{{cnpj}}</td>
-				<td>{{cel}}</td>
-				<td>{{fone}}</td>
-				<td>{{modo}}</td>
-				<td>{{active}}</td>
-			</tr>
-
-	</tbody>
+  <thead>
+    <th>Nome</th>
+    <th>CNPJ</th>
+    <th>Celular</th>
+    <th>Telefone</th>
+    <th>Sistema</th>
+    <th>Status</th>
+  </thead>
+  <tbody>
+    @each(client in clients)
+    <tr>
+      <td>{{client.name}}</td>
+      <td class="cnpj">{{client.cnpj}}</td>
+      <td class="cel">{{client.cellphone}}</td>
+      <td class="tel">{{client.phone}}</td>
+      <td>{{client.system}}</td>
+      @if(client.status)
+      <td>Ativo</td>
+      @else
+      <td>Inativo</td>
+      @end
+    </tr>
+    @end
+  </tbody>
 </table>
-
-{{! prettier-ignore }}
-<script>
-	$(document).ready(function(){ $("td[id='cnpj']").mask('00.000.000/0000-00',
-	{reverse: true})})
-</script>
-
-{{! prettier-ignore }}
-<script type="text/javascript">
-	function fnExcelReport() {
-		var tab_text = "<html xmlns:x='urn:schemas-microsoft-com:office:excel'>";
-		tab_text +=
-			"<head><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet>";
-		tab_text += "<x:Name>Clientes XML Zipper</x:Name>";
-		tab_text +=
-			"<x:WorksheetOptions><x:Panes></x:Panes></x:WorksheetOptions></x:ExcelWorksheet>";
-		tab_text += "</x:ExcelWorksheets></x:ExcelWorkbook></xml></head><body>";
-		tab_text += "<table border='1px'>";
-		tab_text += $("#myTableHidden").html();
-		tab_text += "</table></body></html>";
-		var data_type = "data:application/vnd.ms-excel";
-		var ua = window.navigator.userAgent;
-		var msie = ua.indexOf("MSIE ");
-
-		if (
-			msie > 0 ||
-			!!navigator.userAgent.match(
-			/Trident.*rv\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\:11\./
-			)
-		) {
-			if (window.navigator.msSaveBlob) {
-				var blob = new Blob([tab_text], {
-				type: "application/csv;charset=utf-8;",
-				});
-				navigator.msSaveBlob(blob, `Relatorio-${new Date(Date.now()).toLocaleDateString('pt-BR')}.xls`);
-			}
-		} else {
-			$("#test").attr("href", data_type + ", " + encodeURIComponent(tab_text));
-			$("#test").attr("download", `Relatorio-${new Date(Date.now()).toLocaleDateString('pt-BR')}.xls`);
-		}
-	}
-</script>

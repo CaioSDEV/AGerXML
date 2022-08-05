@@ -1,38 +1,14 @@
 // import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 
+import Database from '@ioc:Adonis/Lucid/Database';
+
 export default class ClientsController {
   public async index({ request, view, session }) {
     try {
-      // const page = request.input('page', 1);
-      // const limit = 500;
-      // const clients = await Database.from('clients').orderBy('id', 'desc').paginate(page, limit);
-      // clients.baseUrl('/clients');
-      const clients = [
-        {
-          name: 'João',
-          cnpj: '00000000000000',
-          phone: '00000000000',
-          cellphone: '1111111111',
-          system: 'teste',
-          status: true,
-        },
-        {
-          name: 'João',
-          cnpj: '00000000000000',
-          phone: '1111111111',
-          cellphone: '00000000000',
-          system: 'teste',
-          status: false,
-        },
-        {
-          name: 'João',
-          cnpj: '00000000000000',
-          phone: '11111111111',
-          cellphone: '0000000000',
-          system: 'teste',
-          status: true,
-        },
-      ];
+      const page = request.input('page', 1);
+      const limit = 500;
+      const clients = await Database.from('clients').orderBy('id', 'desc').paginate(page, limit);
+      clients.baseUrl('/clients');
       return view.render('clients/index', { clients });
     } catch (error) {
       console.log(error);

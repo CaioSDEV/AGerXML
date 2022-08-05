@@ -94,7 +94,7 @@
 
             <td>
               <div class="flex px-1 whitespace-nowrap space-x-1">
-                <a href="/clients/{{client.id}}"
+                {{-- <a href="/clients/{{client.id}}"
                    class="bg-yellow-500 hover:bg-yellow-700 text-white rounded p-0.5">
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6"
                        viewBox="0 0 20 20" fill="currentColor">
@@ -103,7 +103,32 @@
                           d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"
                           clip-rule="evenodd" />
                   </svg>
-                </a>
+                </a> --}}
+
+                <form action="/clients/{{client.id}}/{{client.status}}/status?_method=PATCH"
+                      method="POST" class="flex">
+                  @if(client.status)
+                  <button type="submit" class="hover:opacity-75 rounded p-0.5"
+                          onclick="return confirm('Deseja realmente desativar o cliente?')">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6"
+                         fill="white" viewBox="0 0 24 24" stroke="red"
+                         stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
+                    </svg>
+                  </button>
+                  @else
+                  <button type="submit" class="hover:opacity-75 rounded p-0.5"
+                          onclick="return confirm('Deseja realmente ativar o cliente?')">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6"
+                         fill="white" viewBox="0 0 24 24" stroke="green"
+                         stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                    </svg>
+                  </button>
+                  @end
+                </form>
 
                 <a href="/clients/{{client.id}}/edit"
                    class="bg-blue-600 hover:bg-blue-700 text-white rounded p-0.5">
@@ -117,10 +142,10 @@
                   </svg>
                 </a>
 
-                {{-- <form action="/clients/{{client.id}}?_method=DELETE"
+                <form action="/clients/{{client.id}}?_method=DELETE"
                       method="POST" class="flex">
                   <button type="submit"
-                          class="bg-yellow-800 hover:bg-yellow-900 text-white rounded p-0.5"
+                          class="bg-red-500 hover:bg-red-600 text-white rounded p-0.5"
                           onclick="return confirm('Deseja realmente excluir o cliente?')">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6"
                          viewBox="0 0 20 20" fill="currentColor">
@@ -129,33 +154,6 @@
                             clip-rule="evenodd" />
                     </svg>
                   </button>
-                </form> --}}
-
-                <form action="/clients/{{client.id}}/status?_method=PUT"
-                      method="POST" class="flex">
-                  @if(client.status)
-                  <button type="submit"
-                          class="bg-red-600 hover:bg-red-700 text-white rounded p-0.5"
-                          onclick="return confirm('Deseja realmente desativar o cliente?')">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6"
-                         fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                         stroke-width="2">
-                      <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
-                    </svg>
-                  </button>
-                  @else
-                  <button type="submit"
-                          class="bg-green-600 hover:bg-green-700 text-white rounded p-0.5"
-                          onclick="return confirm('Deseja realmente desativar o cliente?')">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6"
-                         fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                         stroke-width="2">
-                      <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
-                    </svg>
-                  </button>
-                  @end
                 </form>
               </div>
             </td>

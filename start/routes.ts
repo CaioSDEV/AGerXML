@@ -24,5 +24,5 @@ Route.get('/', async ({ response }) => {
   return response.redirect('/clients');
 });
 
-Route.resource('clients', 'ClientsController');
-Route.put('clients/:id/status', 'ClientsController.status');
+Route.resource('/clients', 'ClientsController');
+Route.patch('/clients/:id/:status/status', 'ClientsController.status');

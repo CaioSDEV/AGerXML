@@ -4,6 +4,7 @@ const pdfButton = document.getElementById('pdf');
 const searchName = document.querySelector('#searchName');
 const searchCnpj = document.querySelector('#searchCnpj');
 const searchSystem = document.querySelector('#searchSystem');
+const form = document.getElementsByTagName('form')[0];
 
 // CLIENTS
 const cnpjButton = document.querySelector('.cnpjBtn');
@@ -214,6 +215,15 @@ if (searchSystem) {
         }
       }
     }
+  });
+}
+
+if (form) {
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const cnpjInput = document.getElementsByName('cnpj')[0];
+    cnpjInput.value = $(cnpjInput).cleanVal();
+    form.submit();
   });
 }
 

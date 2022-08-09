@@ -99,7 +99,8 @@
         <label class="required block text-sm text-white" for="phone">Telefone do
           Cliente:</label>
         <input class="tel w-full px-3 py-1 mt-1 text-gray-500 bg-gray-100 rounded focus:outline-none hover:bg-gray-200 placeholder:normal-case placeholder:italic"
-               id="phone" type="text" name="phone" value="{{client.phone}}"" required />
+               id="phone" type="text" name="phone"
+               value="{{client.phone ? client.phone : ''}}" required />
       </div>
 
       <div class=" col-span-3">
@@ -107,7 +108,7 @@
           do Cliente:</label>
         <input class="cel w-full px-3 py-1 mt-1 text-gray-500 bg-gray-100 rounded focus:outline-none hover:bg-gray-200 placeholder:normal-case placeholder:italic"
                id="cellphone" type="text" name="cellphone"
-               value="{{client.cellphone}}"" required />
+               value="{{client.cellphone ? client.cellphone : ''}}" required />
       </div>
 
       <div class=" col-span-3">
@@ -116,7 +117,8 @@
           Contador:</label>
         <input class="tel w-full px-3 py-1 mt-1 text-gray-500 bg-gray-100 rounded focus:outline-none hover:bg-gray-200 placeholder:normal-case placeholder:italic"
                id="accountantPhone" type="text" name="accountantPhone"
-               value="{{client.accountant_phone}}" required />
+               value="{{client.accountant_phone ? client.accountant_phone : ''}}"
+               required />
       </div>
 
       <div class="col-span-3">
@@ -125,7 +127,8 @@
           do Contador:</label>
         <input class="cel w-full px-3 py-1 mt-1 text-gray-500 bg-gray-100 rounded focus:outline-none hover:bg-gray-200 placeholder:normal-case placeholder:italic"
                id="accountantCellphone" type="text" name="accountantCellphone"
-               value="{{client.accountant_cellphone}}" required />
+               value="{{client.accountant_cellphone ? client.accountant_cellphone : ''}}"
+               required />
       </div>
     </div>
 

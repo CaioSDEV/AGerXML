@@ -235,8 +235,7 @@ if (form) {
 
 // CLIENTS
 function saveFile() {
-  let data = `
-  module.exports = {
+  let data = `module.exports = {
     SAT: ${satCheckbox.checked},
     NFe: ${nfeCheckbox.checked},
     caixa:"${caixaInput.value}",
@@ -245,9 +244,7 @@ function saveFile() {
     nomecli: "${nameInput.value}",
     CNPJ: "${$(cnpjInput).cleanVal()}",
     emailcont: "${accountantEmailInput.value}"
-  }
-  `;
-  console.log('🚀 ~ file: app.js ~ line 262 ~ saveFile ~ data', data);
+  }`;
 
   const textToBLOB = new Blob([data], { type: 'text/plain' });
   const sFileName = 'config.js'; // The file to save the data.

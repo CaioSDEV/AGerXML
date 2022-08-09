@@ -39,7 +39,7 @@ export default class Client extends BaseModel {
   public system: 'LECHEFF' | 'LESTORE' | 'SAURUS' | 'MOBILITY' | 'FOCUS' | 'ACSN' | 'JS' | 'OUTROS';
 
   @column()
-  public otherSystemName: string;
+  public apartToken: string;
 
   @column()
   public status: boolean;

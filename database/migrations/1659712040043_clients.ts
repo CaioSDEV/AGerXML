@@ -12,7 +12,7 @@ export default class extends BaseSchema {
       table.string('phone');
       table.string('cellphone');
       table.string('client_email');
-      table.string('accountant').notNullable();
+      table.string('accountant').notNullable().defaultTo('Ação');
       table.string('accountant_phone');
       table.string('accountant_cellphone');
       table.string('accountant_email');
@@ -28,12 +28,12 @@ export default class extends BaseSchema {
           'OUTROS',
         ])
         .notNullable();
-      table.string('other_system_name').nullable();
+      table.string('apart_token').nullable().defaultTo(null);
       table.boolean('status').notNullable().defaultTo(false);
       table.boolean('sat').notNullable();
-      table.string('sat_directory').notNullable();
+      table.string('sat_directory').nullable().defaultTo(null);
       table.boolean('nfe').notNullable();
-      table.string('nfe_directory').notNullable();
+      table.string('nfe_directory').nullable().defaultTo(null);
 
       table.timestamp('created_at', { useTz: true });
       table.timestamp('updated_at', { useTz: true });

@@ -10,13 +10,20 @@ const form = document.getElementsByTagName('form')[0];
 const cnpjButton = document.querySelector('.cnpjBtn');
 const nameInput = document.querySelector('#name');
 const corporateNameInput = document.querySelector('#corporateName');
+const cnpjInput = document.getElementsByName('cnpj')[0];
 const emailInput = document.querySelector('#clientEmail');
+const accountantEmailInput = document.querySelector('#accountantEmail');
 const phoneInput = document.querySelector('#phone');
 const cellphoneInput = document.querySelector('#cellphone');
 const satCheckbox = document.querySelector('#sat');
 const nfeCheckbox = document.querySelector('#nfe');
 const satDirectoryInput = document.querySelector('#satDirectory');
 const nfeDirectoryInput = document.querySelector('#nfeDirectory');
+const openButtonConfig = document.querySelector('.openButtonConfig');
+const configModal = document.querySelector('.configModal');
+const caixaInput = document.querySelector('input[name="caixa"]');
+const closeButtonConfig = document.querySelector('.closeConfig');
+const saveButtonConfig = document.querySelector('.saveConfig');
 // CLIENTS
 
 function mask() {
@@ -221,13 +228,46 @@ if (searchSystem) {
 if (form) {
   form.addEventListener('submit', (e) => {
     e.preventDefault();
-    const cnpjInput = document.getElementsByName('cnpj')[0];
     cnpjInput.value = $(cnpjInput).cleanVal();
     form.submit();
   });
 }
 
 // CLIENTS
+function saveFile() {
+  let data = `
+  module.exports = {
+    SAT: ${satCheckbox.checked},
+    NFe: ${nfeCheckbox.checked},
+    caixa:"${caixaInput.value}",
+    dirSAT: "${satDirectoryInput.value}",
+    dirNFe: "${nfeDirectoryInput.value}",
+    nomecli: "${nameInput.value}",
+    CNPJ: "${$(cnpjInput).cleanVal()}",
+    emailcont: "${accountantEmailInput.value}"
+  }
+  `;
+  console.log('🚀 ~ file: app.js ~ line 262 ~ saveFile ~ data', data);
+
+  const textToBLOB = new Blob([data], { type: 'text/plain' });
+  const sFileName = 'config.js'; // The file to save the data.
+  let newLink = document.createElement('a');
+
+  newLink.download = sFileName;
+
+  if (window.webkitURL !== null) {
+    newLink.href = window.webkitURL.createObjectURL(textToBLOB);
+  } else {
+    newLink.href = window.URL.createObjectURL(textToBLOB);
+    newLink.style.display = 'none';
+    document.body.appendChild(newLink);
+  }
+
+  newLink.click();
+
+  configModal.classList.toggle('hidden');
+}
+
 if (satCheckbox && nfeCheckbox) {
   satCheckbox.addEventListener('change', function (e) {
     if (e.target.checked) {
@@ -289,6 +329,23 @@ if (cnpjButton) {
       console.log(error);
       alert('CNPJ não encontrado ou limite de requisições por minuto atingido.');
     }
+  });
+}
+
+if (openButtonConfig) {
+  openButtonConfig.addEventListener('click', () => {
+    configModal.classList.toggle('hidden');
+    caixaInput.focus();
+  });
+}
+
+if (saveButtonConfig) {
+  saveButtonConfig.addEventListener('click', saveFile);
+}
+
+if (closeButtonConfig) {
+  closeButtonConfig.addEventListener('click', () => {
+    configModal.classList.toggle('hidden');
   });
 }
 // CLIENTS

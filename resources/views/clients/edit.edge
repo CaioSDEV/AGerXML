@@ -1,4 +1,42 @@
 @include('partials/header')
+<div class="configModal hidden">
+  <div
+       class="modal-dialog z-50 fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50">
+    <div
+         class="modal-content max-w-fit px-6 py-2 bg-slate-700 text-white divide-y divide-gray-500 rounded-md">
+      <div class="modal-header flex items-center justify-between">
+        <h3 class="modal-title font-medium text-sm">Caixa</h3>
+        <button type="button" class="closeConfig hover:text-gray-500">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4"
+               viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd"
+                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                  clip-rule="evenodd" />
+          </svg>
+        </button>
+      </div>
+
+      <div class="modal-body mt-2">
+        <div class="flex items-center justify-center my-2 space-x-4">
+          <label class="required text-sm text-white" for="caixa">Digite
+            o
+            número
+            do caixa:</label>
+          <input class="w-20 px-3 py-1 mt-1 text-gray-500 bg-gray-100 rounded focus:outline-none hover:bg-gray-200 placeholder:normal-case placeholder:italic"
+                 type="number" name="caixa" placeholder="0" />
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <div class="flex justify-center mt-2">
+          <button type=button
+                  class="saveConfig text-white text-sm font-light bg-blue-500 hover:bg-gray-400 rounded whitespace-nowrap py-1 px-2">Gerar
+            Arquivo</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <div class="leading-loose max-w-3xl">
 
@@ -190,11 +228,14 @@
       </div>
     </div>
 
-    <div class="mt-5 flex items-center justify-center">
-      <button class="px-3 py-1 text-white font-light tracking-wider bg-green-600 hover:bg-gray-400 rounded"
+    <div class="mt-5 flex items-center justify-center space-x-24">
+      <button class="px-2 py-1 text-white text-sm font-light tracking-wider bg-green-600 hover:bg-gray-400 rounded"
               type="submit">
         Cadastrar
       </button>
+
+      <button class="openButtonConfig text-white text-sm font-light bg-blue-500 hover:bg-gray-400 rounded whitespace-nowrap px-2 py-1"
+              type="button">Configuração</button>
     </div>
   </form>
 </div>

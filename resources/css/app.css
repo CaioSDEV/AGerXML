@@ -1,3 +1,11 @@
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
+
+.required {
+  @apply after:content-['*'] after:ml-1 after:text-red-500;
+}
+
+button:disabled {
+  @apply disabled:opacity-50 disabled:bg-gray-400;
+}

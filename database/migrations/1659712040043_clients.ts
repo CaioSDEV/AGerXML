@@ -14,6 +14,7 @@ export default class extends BaseSchema {
       table.string('client_email');
       table.string('accountant').notNullable();
       table.string('accountant_phone');
+      table.string('accountant_cellphone');
       table.string('accountant_email');
       table
         .enu('system', [

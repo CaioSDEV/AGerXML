@@ -30,6 +30,9 @@ export default class Client extends BaseModel {
   public accountantPhone: string;
 
   @column()
+  public accountantCellphone: string;
+
+  @column()
   public accountantEmail: string;
 
   @column()

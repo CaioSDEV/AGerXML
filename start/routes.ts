@@ -26,3 +26,4 @@ Route.get('/', async ({ response }) => {
 
 Route.resource('/client', 'ClientsController');
 Route.patch('/client/:id/:status/status', 'ClientsController.status');
+Route.get('/getstatus/:cnpj', 'ClientsController.getStatus');

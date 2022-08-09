@@ -66,6 +66,17 @@ export default class ClientsController {
     }
   }
 
+  public async getStatus({ response, params }) {
+    try {
+      const client = await Client.query().select('status').where('cnpj', params.cnpj).first();
+      const status = client?.status ? true : false;
+      return response.json({ status });
+    } catch (e) {
+      console.log(e);
+      return response.json({ error: 'Erro ao obter o status do cliente' });
+    }
+  }
+
   public async edit({ response, params, view, session }) {
     try {
       const client = await Client.findOrFail(params.id);

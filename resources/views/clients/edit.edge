@@ -1,0 +1,197 @@
+@include('partials/header')
+
+<div class="leading-loose max-w-3xl">
+
+  <div class="mt-3 grid grid-cols-3">
+    <a class="px-2 py-1 text-white bg-gray-500 hover:bg-gray-400 rounded justify-self-start"
+       href="/client">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6"
+           viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd"
+              d="M10 18a8 8 0 100-16 8 8 0 000 16zm.707-10.293a1 1 0 00-1.414-1.414l-3 3a1 1 0 000 1.414l3 3a1 1 0 001.414-1.414L9.414 11H13a1 1 0 100-2H9.414l1.293-1.293z"
+              clip-rule="evenodd" />
+      </svg>
+    </a>
+    <p
+       class="text-center text-lg font-bold bg-blue-500 text-white rounded px-3 justify-self-center">
+      Cadastro de Cliente
+    </p>
+    <span class="text-xs font-light text-red-600 justify-self-end">
+      * - Campo obrigatório!</span>
+  </div>
+
+  @include('partials/flashMessage')
+
+  <form action="/client/{{client.id}}?_method=PUT" method="POST">
+    <div class="mt-4 grid grid-cols-2 gap-4">
+      <div class="col-span-1">
+        <label class="required block text-sm text-white"
+               for="name">Nome:</label>
+        <input class="w-full px-3 py-1 mt-1 text-gray-500 bg-gray-100 rounded focus:outline-none hover:bg-gray-200 uppercase placeholder:normal-case placeholder:italic"
+               id="name" type="text" name="name" value="{{client.name}}"
+               placeholder="Digite o nome do cliente..." minlength="3"
+               maxlength="80" required />
+      </div>
+
+      <div class="col-span-1">
+        <label class="required block text-sm text-white"
+               for="corporateName">Razão
+          Social:</label>
+        <input class="w-full px-3 py-1 mt-1 text-gray-500 bg-gray-100 rounded focus:outline-none hover:bg-gray-200 uppercase placeholder:normal-case placeholder:italic"
+               id="corporateName" type="text" name="corporateName"
+               value="{{client.corporate_name}}"
+               placeholder="Digite a razão social do cliente..." minlength="3"
+               maxlength="80" required />
+      </div>
+    </div>
+
+    <div class="mt-4 grid grid-cols-10 gap-4">
+      <div class="col-span-4 inline-flex">
+        <div class="block w-full">
+          <label class="required block text-sm text-white"
+                 for="cnpj">CNPJ:</label>
+          <input class="cnpj w-full px-3 py-1 mt-1 text-gray-500 bg-gray-100 rounded-l focus:outline-none hover:bg-gray-200 placeholder:normal-case placeholder:italic"
+                 type="text" name="cnpj" value="{{client.cnpj}}" required />
+        </div>
+
+        <div class="mt-6">
+          <button class="cnpjBtn text-white font-light bg-blue-500 hover:bg-gray-400 rounded-r whitespace-nowrap py-1 px-2"
+                  type="button">Buscar CNPJ</button>
+        </div>
+      </div>
+
+      <div class="col-span-2">
+        <label class="required block text-sm text-white"
+               for="system">Sistema:</label>
+        <select class="w-full px-2 h-10 mt-1 text-gray-500 bg-gray-100 rounded focus:outline-none hover:bg-gray-200 appearance-none"
+                name="system" required>
+          <option hidden value="">Selecione</option>
+          <option value="LECHEFF" {{ client.system==='LECHEFF' ? 'selected' : ''
+                  }}>RP - LECHEFF</option>
+          <option value="LESTORE" {{ client.system==='LESTORE' ? 'selected' : ''
+                  }}>RP - LESTORE</option>
+          <option value="SAURUS" {{ client.system==='SAURUS' ? 'selected' : ''
+                  }}>SAURUS</option>
+          <option value="MOBILITY" {{ client.system==='MOBILITY' ? 'selected'
+                  : '' }}>MOBILITY</option>
+          <option value="FOCUS" {{ client.system==='FOCUS' ? 'selected' : '' }}>
+            FOCUS</option>
+          <option value="ACSN" {{ client.system==='ACSN' ? 'selected' : '' }}>
+            ACSN</option>
+          <option value="JS" {{ client.system==='JS' ? 'selected' : '' }}>
+            JS</option>
+          <option value="OUTROS" {{ client.system==='OUTROS' ? 'selected' : ''
+                  }}>Outros</option>
+        </select>
+      </div>
+
+      <div class="col-span-4">
+        <label class="required block text-sm text-white"
+               for="accountant">Contador:</label>
+        <input class="w-full px-3 py-1 mt-1 text-gray-500 bg-gray-100 rounded focus:outline-none hover:bg-gray-200 uppercase placeholder:normal-case placeholder:italic"
+               type="text" name="accountant" value="{{client.accountant}}"
+               placeholder="Digite o nome do contador..." />
+      </div>
+    </div>
+
+    <div class="mt-4 grid grid-cols-12 gap-4">
+      <div class="col-span-3">
+        <label class="required block text-sm text-white" for="phone">Telefone do
+          Cliente:</label>
+        <input class="tel w-full px-3 py-1 mt-1 text-gray-500 bg-gray-100 rounded focus:outline-none hover:bg-gray-200 placeholder:normal-case placeholder:italic"
+               id="phone" type="text" name="phone" value="{{client.phone}}"" required />
+      </div>
+
+      <div class=" col-span-3">
+        <label class="required block text-sm text-white" for="cellphone">Celular
+          do Cliente:</label>
+        <input class="cel w-full px-3 py-1 mt-1 text-gray-500 bg-gray-100 rounded focus:outline-none hover:bg-gray-200 placeholder:normal-case placeholder:italic"
+               id="cellphone" type="text" name="cellphone"
+               value="{{client.cellphone}}"" required />
+      </div>
+
+      <div class=" col-span-3">
+        <label class="required block text-sm text-white"
+               for="accountantPhone">Telefone do
+          Contador:</label>
+        <input class="tel w-full px-3 py-1 mt-1 text-gray-500 bg-gray-100 rounded focus:outline-none hover:bg-gray-200 placeholder:normal-case placeholder:italic"
+               id="accountantPhone" type="text" name="accountantPhone"
+               value="{{client.accountant_phone}}" required />
+      </div>
+
+      <div class="col-span-3">
+        <label class="required block text-sm text-white"
+               for="accountantCellphone">Celular
+          do Contador:</label>
+        <input class="cel w-full px-3 py-1 mt-1 text-gray-500 bg-gray-100 rounded focus:outline-none hover:bg-gray-200 placeholder:normal-case placeholder:italic"
+               id="accountantCellphone" type="text" name="accountantCellphone"
+               value="{{client.accountant_cellphone}}" required />
+      </div>
+    </div>
+
+    <div class="mt-4 grid grid-cols-12 gap-4">
+      <div class="col-span-6">
+        <label class="required block text-sm text-white" for="clientEmail">Email
+          do Cliente:</label>
+        <input class="w-full px-3 py-1 mt-1 text-gray-500 bg-gray-100 rounded focus:outline-none hover:bg-gray-200 lowercase placeholder:normal-case placeholder:italic"
+               id="clientEmail" type="email" name="clientEmail"
+               value="{{client.client_email}}"
+               pattern="^(?![_.-])((?![_.-][_.-])[a-zA-Z\d_.-]){0,63}[a-zA-Z\d]@((?!-)((?!--)[a-zA-Z\d-]){0,63}[a-zA-Z\d]\.){1,2}([a-zA-Z]{2,14}\.)?[a-zA-Z]{2,14}$"
+               placeholder="Digite o email do cliente..." required />
+      </div>
+
+      <div class="col-span-6">
+        <label class="required block text-sm text-white"
+               for="accountantEmail">Email do Contador:</label>
+        <input class="w-full px-3 py-1 mt-1 text-gray-500 bg-gray-100 rounded focus:outline-none hover:bg-gray-200 lowercase placeholder:normal-case placeholder:italic"
+               id="accountantEmail" type="email" name="accountantEmail"
+               value="{{client.accountant_email}}"
+               pattern="^(?![_.-])((?![_.-][_.-])[a-zA-Z\d_.-]){0,63}[a-zA-Z\d]@((?!-)((?!--)[a-zA-Z\d-]){0,63}[a-zA-Z\d]\.){1,2}([a-zA-Z]{2,14}\.)?[a-zA-Z]{2,14}$"
+               placeholder="Digite o email do contador..." required />
+      </div>
+    </div>
+
+    <div class="mt-4 grid grid-cols-11 gap-4">
+      <div class="col-span-1 flex flex-col mt-1">
+        <div>
+          <input type="checkbox" name="sat" id="sat" {{client.sat===1
+                 ? 'checked' : '' }} />
+          <label class="required text-sm text-white" for="sat">SAT:</label>
+        </div>
+
+        <div>
+          <input type="checkbox" name="nfe" id="nfe" {{client.nfe===1
+                 ? 'checked' : '' }} />
+          <label class="required text-sm text-white" for="nfe">NFe:</label>
+        </div>
+      </div>
+
+      <div class="col-span-5">
+        <label class="required block text-sm text-white"
+               for="satDirectory">Diretório SAT:</label>
+        <input class="w-full px-3 py-1 mt-1 text-gray-500 bg-gray-100 rounded focus:outline-none hover:bg-gray-200 placeholder:normal-case placeholder:italic disabled:opacity-50 disabled:cursor-not-allowed"
+               type="text" name="satDirectory" id="satDirectory"
+               value="{{client.sat_directory}}"
+               placeholder="Digite o diretório dos arquivos de SAT..."
+               {{client.sat_directory ? '' : 'disabled ' }} />
+      </div>
+
+      <div class="col-span-5">
+        <label class="required block text-sm text-white"
+               for="nfeDirectory">Diretório NFe:</label>
+        <input class="w-full px-3 py-1 mt-1 text-gray-500 bg-gray-100 rounded focus:outline-none hover:bg-gray-200 placeholder:normal-case placeholder:italic disabled:opacity-50 disabled:cursor-not-allowed"
+               type="text" name="nfeDirectory" id="nfeDirectory"
+               value="{{client.nfe_directory}}"
+               placeholder="Digite o diretório dos arquivos de NFe..."
+               {{client.nfe_directory ? '' : 'disabled ' }} />
+      </div>
+    </div>
+
+    <div class="mt-5 flex items-center justify-center">
+      <button class="px-3 py-1 text-white font-light tracking-wider bg-green-600 hover:bg-gray-400 rounded"
+              type="submit">
+        Cadastrar
+      </button>
+    </div>
+  </form>
+</div>

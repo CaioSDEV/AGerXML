@@ -31,14 +31,11 @@ export default class ClientsController {
   public async store({ request, response, session }) {
     try {
       const body = request.all();
-      console.log(
-        '🚀 ~ file: ClientsController.ts ~ line 34 ~ ClientsController ~ store ~ body',
-        body
-      );
-      // const newClient = await this.removeNullProperties(body);
       body.name = body.name.toUpperCase();
       body.corporateName = body.corporateName.toUpperCase();
       body.clientEmail = body.clientEmail.toLowerCase();
+      body.sat === 'on' ? (body.sat = true) : (body.sat = false);
+      body.nfe === 'on' ? (body.nfe = true) : (body.nfe = false);
       const client = await Client.findBy('cnpj', body.cnpj);
       if (client) {
         session.flash({ error: 'Cliente já cadastrado!' });
@@ -69,9 +66,47 @@ export default class ClientsController {
     }
   }
 
-  public async edit({}) {}
+  public async edit({ response, params, view, session }) {
+    try {
+      const client = await Client.findOrFail(params.id);
+      return view.render('Clients/edit', { client: client.toJSON() });
+    } catch (error) {
+      console.log(error);
+      session.flash({ error: 'Cliente não encontrado!' });
+      return response.redirect('back');
+    }
+  }
 
-  public async update({}) {}
+  public async update({ request, response, params, session }) {
+    try {
+      const client = await Client.findOrFail(params.id);
+      const body = request.except('_method');
+      body.name = body.name.toUpperCase();
+      body.corporateName = body.corporateName.toUpperCase();
+      body.clientEmail = body.clientEmail.toLowerCase();
+      body.sat === 'on' ? (body.sat = true) : (body.sat = false);
+      body.nfe === 'on' ? (body.nfe = true) : (body.nfe = false);
+      client.merge(body);
+      await client.save();
+      session.flash({ success: 'Cliente atualizado com sucesso!' });
+      return response.redirect('/client');
+    } catch (error) {
+      console.log(error);
+      session.flash({ error: 'Erro ao atualizar o cliente!' });
+      return response.redirect('back');
+    }
+  }
 
-  public async destroy({}) {}
+  public async destroy({ response, params, session }) {
+    try {
+      const client = await Client.findOrFail(params.id);
+      await client.delete();
+      session.flash({ success: 'Cliente excluído com sucesso!' });
+      return response.redirect('/client');
+    } catch (error) {
+      console.log(error);
+      session.flash({ error: 'Erro ao excluir o cliente!' });
+      return response.redirect('back');
+    }
+  }
 }

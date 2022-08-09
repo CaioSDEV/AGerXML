@@ -5,6 +5,19 @@ const searchName = document.querySelector('#searchName');
 const searchCnpj = document.querySelector('#searchCnpj');
 const searchSystem = document.querySelector('#searchSystem');
 
+// CLIENTS
+const cnpjButton = document.querySelector('.cnpjBtn');
+const nameInput = document.querySelector('#name');
+const corporateNameInput = document.querySelector('#corporateName');
+const emailInput = document.querySelector('#clientEmail');
+const phoneInput = document.querySelector('#phone');
+const cellphoneInput = document.querySelector('#cellphone');
+const satCheckbox = document.querySelector('#sat');
+const nfeCheckbox = document.querySelector('#nfe');
+const satDirectoryInput = document.querySelector('#satDirectory');
+const nfeDirectoryInput = document.querySelector('#nfeDirectory');
+// CLIENTS
+
 function mask() {
   $('textarea')
     .each(function () {
@@ -76,6 +89,40 @@ function mask() {
     selectOnFocus: true,
     placeholder: 'Pesquisar CNPJ',
   });
+}
+
+function unmask() {
+  $('.money').unmask();
+
+  $('.tel').unmask();
+
+  $('.cel').unmask();
+
+  $('.n').unmask();
+
+  $('.n3').unmask();
+
+  $('.n5').unmask();
+
+  $('.nf').unmask();
+
+  $('.nf2').unmask();
+
+  $('.nf3').unmask();
+
+  $('.discount').unmask();
+
+  $('.ncm').unmask();
+
+  $('.cest').unmask();
+
+  $('.icms').unmask();
+
+  $('.cst').unmask();
+
+  $('.cep').unmask();
+
+  $('.cnpj').unmask();
 }
 
 $(document).ready(mask());
@@ -169,6 +216,72 @@ if (searchSystem) {
     }
   });
 }
+
+// CLIENTS
+if (satCheckbox && nfeCheckbox) {
+  satCheckbox.addEventListener('change', function (e) {
+    if (e.target.checked) {
+      satDirectoryInput.disabled = false;
+      satDirectoryInput.required = true;
+    } else {
+      satDirectoryInput.disabled = true;
+      satDirectoryInput.required = false;
+    }
+  });
+
+  nfeCheckbox.addEventListener('change', function (e) {
+    if (e.target.checked) {
+      nfeDirectoryInput.disabled = false;
+      nfeDirectoryInput.required = true;
+    } else {
+      nfeDirectoryInput.disabled = true;
+      nfeDirectoryInput.required = false;
+    }
+  });
+}
+
+if (cnpjButton) {
+  cnpjButton.addEventListener('click', async (e) => {
+    async function getCnpj(cnpj) {
+      if (cnpj) {
+        const data = await fetch(`https://publica.cnpj.ws/cnpj/${cnpj}`);
+        return await data.json();
+      }
+    }
+
+    const cnpj = $('.cnpj').cleanVal();
+    const cnpjData = await getCnpj(cnpj);
+    try {
+      const name = cnpjData.estabelecimento.nome_fantasia || cnpjData.razao_social || '';
+      const corporateName = cnpjData.razao_social || cnpjData.estabelecimento.nome_fantasia || '';
+      const email = cnpjData.estabelecimento.email || '';
+      const phone =
+        (cnpjData.estabelecimento.ddd1 + cnpjData.estabelecimento.telefone1).length === 10 ||
+        (cnpjData.estabelecimento.ddd2 + cnpjData.estabelecimento.telefone2).length === 10
+          ? cnpjData.estabelecimento.ddd1 + cnpjData.estabelecimento.telefone1 ||
+            cnpjData.estabelecimento.ddd2 + cnpjData.estabelecimento.telefone2
+          : '0000000000';
+      const cellphone =
+        (cnpjData.estabelecimento.ddd2 + cnpjData.estabelecimento.telefone2).length === 11 ||
+        (cnpjData.estabelecimento.ddd1 + cnpjData.estabelecimento.telefone1).length === 11
+          ? cnpjData.estabelecimento.ddd2 + cnpjData.estabelecimento.telefone2 ||
+            cnpjData.estabelecimento.ddd1 + cnpjData.estabelecimento.telefone1
+          : '00000000000';
+
+      nameInput.value = name.replace(/\s+/g, ' ');
+      corporateNameInput.value = corporateName.replace(/\s+/g, ' ');
+      emailInput.value = email.replace(/\s+/g, ' ');
+      phoneInput.value = phone.replace(/\s+/g, ' ');
+      cellphoneInput.value = cellphone.replace(/\s+/g, ' ');
+      unmask();
+      mask();
+    } catch (error) {
+      console.log(error);
+      alert('CNPJ não encontrado ou limite de requisições por minuto atingido.');
+    }
+  });
+}
+// CLIENTS
 
 function fnExcelReport() {
   var tabText = "<html xmlns:x='urn:schemas-microsoft-com:office:excel'>";

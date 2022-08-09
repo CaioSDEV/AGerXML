@@ -21,8 +21,8 @@
 import Route from '@ioc:Adonis/Core/Route';
 
 Route.get('/', async ({ response }) => {
-  return response.redirect('/clients');
+  return response.redirect('/client');
 });
 
-Route.resource('/clients', 'ClientsController');
-Route.patch('/clients/:id/:status/status', 'ClientsController.status');
+Route.resource('/client', 'ClientsController');
+Route.patch('/client/:id/:status/status', 'ClientsController.status');

@@ -13,7 +13,7 @@
        class="bg-yellow-500 text-white rounded px-2 py-1 text-sm hover:bg-yellow-800"
        type="button" id="pdf">Exportar
       para Excel</a>
-    <a href="/clients/create"
+    <a href="/client/create"
        class="bg-green-600 text-white rounded px-2 py-1 text-sm hover:bg-green-800 ">
       Novo Cliente
     </a>
@@ -65,7 +65,7 @@
             </td>
 
             <td
-                class="dynamicPhone text-sm text-gray-900 px-1 whitespace-nowrap border-r border-r-gray-800">
+                class="text-sm text-gray-900 px-1 whitespace-nowrap border-r border-r-gray-800">
               @if(client.phone === '(00) 0000-0000')
               @if(client.cellphone === '(00) 00000-0000')
               Não informado
@@ -94,7 +94,7 @@
 
             <td>
               <div class="flex px-1 whitespace-nowrap space-x-1">
-                {{-- <a href="/clients/{{client.id}}"
+                {{-- <a href="/client/{{client.id}}"
                    class="bg-yellow-500 hover:bg-yellow-700 text-white rounded p-0.5">
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6"
                        viewBox="0 0 20 20" fill="currentColor">
@@ -105,24 +105,24 @@
                   </svg>
                 </a> --}}
 
-                <form action="/clients/{{client.id}}/{{client.status}}/status?_method=PATCH"
+                <form action="/client/{{client.id}}/{{client.status}}/status?_method=PATCH"
                       method="POST" class="flex">
                   @if(client.status)
-                  <button type="submit" class="hover:opacity-75 rounded p-0.5"
+                  <button type="submit"
+                          class="hover:opacity-75 rounded p-0.5 fill-gray-50 stroke-red-600"
                           onclick="return confirm('Deseja realmente desativar o cliente?')">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6"
-                         fill="white" viewBox="0 0 24 24" stroke="red"
-                         stroke-width="2">
+                         viewBox="0 0 24 24" stroke-width="2">
                       <path stroke-linecap="round" stroke-linejoin="round"
                             d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
                     </svg>
                   </button>
                   @else
-                  <button type="submit" class="hover:opacity-75 rounded p-0.5"
+                  <button type="submit"
+                          class="hover:opacity-75 rounded p-0.5 fill-gray-50 stroke-green-600"
                           onclick="return confirm('Deseja realmente ativar o cliente?')">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6"
-                         fill="white" viewBox="0 0 24 24" stroke="green"
-                         stroke-width="2">
+                         viewBox="0 0 24 24" stroke-width="2">
                       <path stroke-linecap="round" stroke-linejoin="round"
                             d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
                     </svg>
@@ -130,7 +130,7 @@
                   @end
                 </form>
 
-                <a href="/clients/{{client.id}}/edit"
+                <a href="/client/{{client.id}}/edit"
                    class="bg-blue-600 hover:bg-blue-700 text-white rounded p-0.5">
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6"
                        viewBox="0 0 20 20" fill="currentColor">
@@ -142,7 +142,7 @@
                   </svg>
                 </a>
 
-                <form action="/clients/{{client.id}}?_method=DELETE"
+                <form action="/client/{{client.id}}?_method=DELETE"
                       method="POST" class="flex">
                   <button type="submit"
                           class="bg-red-500 hover:bg-red-600 text-white rounded p-0.5"

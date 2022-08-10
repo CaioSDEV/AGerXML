@@ -10,6 +10,10 @@ export default class ClientsController {
       const page = request.input('page', 1);
       const limit = 500;
       const clients = await Database.from('clients').orderBy('id', 'desc').paginate(page, limit);
+      clients.forEach((client) => {
+        client.status =
+          client?.expiracy && DateTime.now().toUnixInteger() > client?.expiracy ? 2 : client.status;
+      });
       clients.baseUrl('/client');
       return view.render('clients/index', { clients });
     } catch (error) {

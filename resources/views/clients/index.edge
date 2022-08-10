@@ -82,14 +82,19 @@
               {{ client.system}}
             </td>
 
-            @if(client.status)
-            <td
-                class="text-sm px-1 whitespace-nowrap border-r border-r-gray-800 text-white bg-green-500">
-              Sim</td>
-            @else
+            @if(client.status === 0)
             <td
                 class="text-sm px-1 whitespace-nowrap border-r border-r-gray-800 text-white bg-red-600">
               Não</td>
+            @elseif(client.status === 1)
+
+            <td
+                class="text-sm px-1 whitespace-nowrap border-r border-r-gray-800 text-white bg-green-500">
+              Sim</td>
+            @elseif(client.status === 2)
+            <td
+                class="text-sm px-1 whitespace-nowrap border-r border-r-gray-800 text-white bg-black/75">
+              Expirado</td>
             @end
 
             <td>

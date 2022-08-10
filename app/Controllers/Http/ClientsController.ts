@@ -100,7 +100,7 @@ export default class ClientsController {
   public async edit({ response, params, view, session }) {
     try {
       const client = await Client.findOrFail(params.id);
-      return view.render('Clients/edit', { client: client.toJSON() });
+      return view.render('clients/edit', { client: client.toJSON() });
     } catch (error) {
       console.log(error);
       session.flash({ error: 'Cliente não encontrado!' });

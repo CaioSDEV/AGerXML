@@ -79,15 +79,28 @@ export default class ClientsController {
   public async getStatus({ response, params }) {
     try {
       const client = await Client.query()
-        .select('status', 'expiracy')
+        .select('id', 'status', 'expiracy')
         .where('cnpj', params.cnpj)
         .first();
       const status = client?.status ? true : false;
 
       if (status) {
         if (client?.expiracy && DateTime.now().toUnixInteger() > client?.expiracy) {
-          await client.merge({ status: false }).save();
-          return response.json({ status: false });
+          const expiredClient = await Client.findOrFail(client.id);
+          expiredClient.status = false;
+          await expiredClient.save();
+
+          const data = {
+            status: false,
+            message: 'Sua licença expirou, entre em contato com o suporte!',
+          };
+
+          console.log(
+            '🚀 ~ file: ClientsController.ts ~ line 99 ~ ClientsController ~ getStatus ~ data',
+            data
+          );
+
+          return response.json(data);
         }
         return response.json({ status });
       }

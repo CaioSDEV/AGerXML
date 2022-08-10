@@ -26,9 +26,10 @@ export default class extends BaseSchema {
           'ACSN',
           'JS',
           'OUTROS',
+          'AVULSO',
         ])
         .notNullable();
-      table.string('apart_token').nullable().defaultTo(null);
+      table.integer('expiracy').nullable().defaultTo(null);
       table.boolean('status').notNullable().defaultTo(false);
       table.boolean('sat').notNullable();
       table.string('sat_directory').nullable().defaultTo(null);

@@ -2,6 +2,7 @@
 
 import Database from '@ioc:Adonis/Lucid/Database';
 import Client from 'App/Models/Client';
+import { DateTime } from 'luxon';
 
 export default class ClientsController {
   public async index({ request, view, session }) {
@@ -55,7 +56,16 @@ export default class ClientsController {
     try {
       const client = await Client.findOrFail(params.id);
       const { status } = params;
-      client.status = status === '1' ? false : true;
+
+      if (status === '1') {
+        client.status = false;
+        if (client.system === 'AVULSO') client.expiracy = null;
+      } else {
+        client.status = true;
+        if (client.system === 'AVULSO')
+          client.expiracy = DateTime.now().plus({ years: 1 }).toUnixInteger();
+      }
+
       await client.save();
       session.flash({ success: 'Status do cliente atualizado com sucesso!' });
       return response.redirect('/client');
@@ -68,8 +78,18 @@ export default class ClientsController {
 
   public async getStatus({ response, params }) {
     try {
-      const client = await Client.query().select('status').where('cnpj', params.cnpj).first();
+      const client = await Client.query()
+        .select('status', 'expiracy')
+        .where('cnpj', params.cnpj)
+        .first();
       const status = client?.status ? true : false;
+
+      if (status) {
+        if (client?.expiracy && DateTime.now().toUnixInteger() > client?.expiracy) {
+          return response.json({ status: false });
+        }
+        return response.json({ status });
+      }
       return response.json({ status });
     } catch (e) {
       console.log(e);

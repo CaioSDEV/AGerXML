@@ -36,10 +36,19 @@ export default class Client extends BaseModel {
   public accountantEmail: string;
 
   @column()
-  public system: 'LECHEFF' | 'LESTORE' | 'SAURUS' | 'MOBILITY' | 'FOCUS' | 'ACSN' | 'JS' | 'OUTROS';
+  public system:
+    | 'LECHEFF'
+    | 'LESTORE'
+    | 'SAURUS'
+    | 'MOBILITY'
+    | 'FOCUS'
+    | 'ACSN'
+    | 'JS'
+    | 'OUTROS'
+    | 'AVULSO';
 
   @column()
-  public apartToken: string;
+  public expiracy: number | null;
 
   @column()
   public status: boolean;

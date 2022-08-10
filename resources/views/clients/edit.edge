@@ -120,6 +120,9 @@
             JS</option>
           <option value="OUTROS" {{ client.system==='OUTROS' ? 'selected' : ''
                   }}>Outros</option>
+          <option disabled>----------</option>
+          <option value="AVULSO" {{ client.system==='AVULSO' ? 'selected' : ''
+                  }}>Avulso</option>
         </select>
       </div>
 
@@ -212,7 +215,7 @@
                for="satDirectory">Diretório SAT:</label>
         <input class="w-full px-3 py-1 mt-1 text-gray-500 bg-gray-100 rounded focus:outline-none hover:bg-gray-200 placeholder:normal-case placeholder:italic disabled:opacity-50 disabled:cursor-not-allowed"
                type="text" name="satDirectory" id="satDirectory"
-               value="{{client.sat_directory}}"
+               value="{{client.sat_directory ? client.sat_directory : ''}}"
                placeholder="Digite o diretório dos arquivos de SAT..."
                {{client.sat_directory ? '' : 'disabled ' }} />
       </div>
@@ -222,7 +225,7 @@
                for="nfeDirectory">Diretório NFe:</label>
         <input class="w-full px-3 py-1 mt-1 text-gray-500 bg-gray-100 rounded focus:outline-none hover:bg-gray-200 placeholder:normal-case placeholder:italic disabled:opacity-50 disabled:cursor-not-allowed"
                type="text" name="nfeDirectory" id="nfeDirectory"
-               value="{{client.nfe_directory}}"
+               value="{{client.nfe_directory ? client.nfe_directory : ''}}"
                placeholder="Digite o diretório dos arquivos de NFe..."
                {{client.nfe_directory ? '' : 'disabled ' }} />
       </div>

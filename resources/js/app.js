@@ -4,7 +4,8 @@ const pdfButton = document.getElementById('pdf');
 const searchName = document.querySelector('#searchName');
 const searchCnpj = document.querySelector('#searchCnpj');
 const searchSystem = document.querySelector('#searchSystem');
-const form = document.getElementsByTagName('form')[0];
+const submit = document.querySelector('button[type="submit"]');
+const form = document.querySelector('form');
 
 // CLIENTS
 const cnpjButton = document.querySelector('.cnpjBtn');
@@ -135,6 +136,24 @@ function unmask() {
 
 $(document).ready(mask());
 
+if (form) {
+  let formChanged = false;
+  let submitClicked = false;
+  form.addEventListener('change', () => {
+    formChanged = true;
+    openButtonConfig.disabled = true;
+    openButtonConfig.innerHTML = 'Salve para habilitar';
+  });
+  if (submit) {
+    submit.addEventListener('click', () => (submitClicked = true));
+    window.onbeforeunload = () => {
+      if (formChanged && !submitClicked) {
+        return 'Você quer mesmo sair da página?';
+      }
+    };
+  }
+}
+
 if (searchName) {
   searchName.addEventListener('input', function searchName(e) {
     // Declare variables
@@ -235,12 +254,17 @@ if (form) {
 
 // CLIENTS
 function saveFile() {
+  const satDirectory = satDirectoryInput.value.replace(/\\/g, '/');
+  const nfeDirectory = nfeDirectoryInput.value.replace(/\\/g, '/');
+  satDirectory = satDirectory.endsWith('/') ? satDirectory : satDirectory + '/';
+  nfeDirectory = nfeDirectory.endsWith('/') ? nfeDirectory : nfeDirectory + '/';
+
   let data = `module.exports = {
     SAT: ${satCheckbox.checked},
     NFe: ${nfeCheckbox.checked},
     caixa:"${caixaInput.value}",
-    dirSAT: "${satDirectoryInput.value}",
-    dirNFe: "${nfeDirectoryInput.value}",
+    dirSAT: "${satDirectory}",
+    dirNFe: "${nfeDirectory}",
     nomecli: "${nameInput.value}",
     CNPJ: "${$(cnpjInput).cleanVal()}",
     emailcont: "${accountantEmailInput.value}"

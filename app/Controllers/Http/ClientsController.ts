@@ -41,6 +41,14 @@ export default class ClientsController {
       body.clientEmail = body.clientEmail.toLowerCase();
       body.sat === 'on' ? (body.sat = true) : (body.sat = false);
       body.nfe === 'on' ? (body.nfe = true) : (body.nfe = false);
+      body.satDirectory = body.satDirectory.replace(/\\/g, '/');
+      body.nfeDirectory = body.nfeDirectory.replace(/\\/g, '/');
+      body.satDirectory = body.satDirectory.endsWith('/')
+        ? body.satDirectory
+        : body.satDirectory + '/';
+      body.nfeDirectory = body.nfeDirectory.endsWith('/')
+        ? body.nfeDirectory
+        : body.nfeDirectory + '/';
       const client = await Client.findBy('cnpj', body.cnpj);
       if (client) {
         session.flash({ error: 'Cliente já cadastrado!' });
@@ -135,6 +143,14 @@ export default class ClientsController {
       body.clientEmail = body.clientEmail.toLowerCase();
       body.sat === 'on' ? (body.sat = true) : (body.sat = false);
       body.nfe === 'on' ? (body.nfe = true) : (body.nfe = false);
+      body.satDirectory = body.satDirectory.replace(/\\/g, '/');
+      body.nfeDirectory = body.nfeDirectory.replace(/\\/g, '/');
+      body.satDirectory = body.satDirectory.endsWith('/')
+        ? body.satDirectory
+        : body.satDirectory + '/';
+      body.nfeDirectory = body.nfeDirectory.endsWith('/')
+        ? body.nfeDirectory
+        : body.nfeDirectory + '/';
       client.merge(body);
       await client.save();
       session.flash({ success: 'Cliente atualizado com sucesso!' });

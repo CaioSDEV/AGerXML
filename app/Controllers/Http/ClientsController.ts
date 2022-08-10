@@ -86,6 +86,7 @@ export default class ClientsController {
 
       if (status) {
         if (client?.expiracy && DateTime.now().toUnixInteger() > client?.expiracy) {
+          await client.merge({ status: false }).save();
           return response.json({ status: false });
         }
         return response.json({ status });

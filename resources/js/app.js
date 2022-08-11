@@ -254,8 +254,8 @@ if (form) {
 
 // CLIENTS
 function saveFile() {
-  const satDirectory = satDirectoryInput.value.replace(/\\/g, '/');
-  const nfeDirectory = nfeDirectoryInput.value.replace(/\\/g, '/');
+  let satDirectory = satDirectoryInput.value.replace(/\\/g, '/');
+  let nfeDirectory = nfeDirectoryInput.value.replace(/\\/g, '/');
   satDirectory = satDirectory.endsWith('/') ? satDirectory : satDirectory + '/';
   nfeDirectory = nfeDirectory.endsWith('/') ? nfeDirectory : nfeDirectory + '/';
 

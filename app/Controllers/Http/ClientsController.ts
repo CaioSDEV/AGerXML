@@ -5,6 +5,13 @@ import Client from 'App/Models/Client';
 import { DateTime } from 'luxon';
 
 export default class ClientsController {
+  public async daysToExpire(expiracy: number) {
+    const now = DateTime.fromISO(DateTime.now().toISODate());
+    const expiracyDate = DateTime.fromISO(DateTime.fromSeconds(expiracy).toISODate());
+    const diff = expiracyDate.diff(now, 'days').toObject();
+    return diff.days;
+  }
+
   public async index({ request, view, session }) {
     try {
       const page = request.input('page', 1);
@@ -97,22 +104,73 @@ export default class ClientsController {
       const status = client?.status ? true : false;
 
       if (status) {
-        if (client?.expiracy && DateTime.now().toUnixInteger() > client?.expiracy) {
-          const expiredClient = await Client.findOrFail(client.id);
-          expiredClient.status = false;
-          await expiredClient.save();
+        if (client?.expiracy) {
+          const expiracy = client?.expiracy;
+          const diff = await this.daysToExpire(expiracy);
 
-          const data = {
-            status: false,
-            message: 'Sua licença expirou, entre em contato com o suporte!',
-          };
+          if (diff) {
+            if (diff <= 0) {
+              const expiredClient = await Client.findOrFail(client.id);
+              expiredClient.status = false;
+              await expiredClient.save();
 
-          console.log(
-            '🚀 ~ file: ClientsController.ts ~ line 99 ~ ClientsController ~ getStatus ~ data',
-            data
-          );
-
-          return response.json(data);
+              const data = {
+                status: false,
+                message: 'Sua licença expirou, entre em contato com o suporte para renovação!',
+              };
+              return response.json(data);
+            } else if (diff === 1) {
+              const data = {
+                status: true,
+                message:
+                  'Sua licença expira amanhã, entre em contato com o suporte para renovação!',
+              };
+              return response.json(data);
+            } else if (diff === 2) {
+              const data = {
+                status: true,
+                message:
+                  'Sua licença expira em 2 dias, entre em contato com o suporte para renovação!',
+              };
+              return response.json(data);
+            } else if (diff === 3) {
+              const data = {
+                status: true,
+                message:
+                  'Sua licença expira em 3 dias, entre em contato com o suporte para renovação!',
+              };
+              return response.json(data);
+            } else if (diff === 5) {
+              const data = {
+                status: true,
+                message:
+                  'Sua licença expira em 5 dias, entre em contato com o suporte para renovação!',
+              };
+              return response.json(data);
+            } else if (diff === 10) {
+              const data = {
+                status: true,
+                message:
+                  'Sua licença expira em 10 dias, entre em contato com o suporte para renovação!',
+              };
+              return response.json(data);
+            } else if (diff === 15) {
+              const data = {
+                status: true,
+                message:
+                  'Sua licença expira em 15 dias, entre em contato com o suporte para renovação!',
+              };
+              return response.json(data);
+            } else if (diff === 30) {
+              const data = {
+                status: true,
+                message:
+                  'Sua licença expira em 30 dias, entre em contato com o suporte para renovação!',
+              };
+              return response.json(data);
+            }
+          }
+          return response.json({ status });
         }
         return response.json({ status });
       }

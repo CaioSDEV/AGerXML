@@ -98,6 +98,13 @@ function mask() {
     selectOnFocus: true,
     placeholder: 'Pesquisar CNPJ',
   });
+
+  $('#myTable').tablesorter({
+    sortList: [
+      [0, 0],
+      [1, 0],
+    ],
+  });
 }
 
 function unmask() {

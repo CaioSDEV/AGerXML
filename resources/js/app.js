@@ -15,7 +15,9 @@ const cnpjInput = document.getElementsByName('cnpj')[0];
 const emailInput = document.querySelector('#clientEmail');
 const accountantEmailInput = document.querySelector('#accountantEmail');
 const phoneInput = document.querySelector('#phone');
+const accountantPhoneInput = document.querySelector('#accountantPhone');
 const cellphoneInput = document.querySelector('#cellphone');
+const accountantCellphoneInput = document.querySelector('#accountantCellphone');
 const satCheckbox = document.querySelector('#sat');
 const nfeCheckbox = document.querySelector('#nfe');
 const satDirectoryInput = document.querySelector('#satDirectory');
@@ -350,9 +352,12 @@ if (cnpjButton) {
 
       nameInput.value = name.replace(/\s+/g, ' ');
       corporateNameInput.value = corporateName.replace(/\s+/g, ' ');
-      emailInput.value = email.replace(/\s+/g, ' ');
+      emailInput.value = email.replace(/\s+/g, ' ') || 'acaoautocom@gmail.com';
       phoneInput.value = phone.replace(/\s+/g, ' ');
       cellphoneInput.value = cellphone.replace(/\s+/g, ' ');
+      accountantEmailInput.value = 'zipperxml@gmail.com';
+      accountantPhoneInput.value = '0000000000';
+      accountantCellphoneInput.value = '00000000000';
       unmask();
       mask();
     } catch (error) {

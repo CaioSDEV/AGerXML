@@ -208,16 +208,26 @@ export default class ClientsController {
       body.name = body.name.toUpperCase();
       body.corporateName = body.corporateName.toUpperCase();
       body.clientEmail = body.clientEmail.toLowerCase();
-      body.sat === 'on' ? (body.sat = true) : (body.sat = false);
-      body.nfe === 'on' ? (body.nfe = true) : (body.nfe = false);
-      body.satDirectory = body.satDirectory.replace(/\\/g, '/');
-      body.nfeDirectory = body.nfeDirectory.replace(/\\/g, '/');
-      body.satDirectory = body.satDirectory.endsWith('/')
-        ? body.satDirectory
-        : body.satDirectory + '/';
-      body.nfeDirectory = body.nfeDirectory.endsWith('/')
-        ? body.nfeDirectory
-        : body.nfeDirectory + '/';
+
+      if (body.sat === 'on') {
+        body.sat = true;
+        body.satDirectory = body.satDirectory.replace(/\\/g, '/');
+        body.satDirectory = body.satDirectory.endsWith('/')
+          ? body.satDirectory
+          : body.satDirectory + '/';
+      } else {
+        body.sat = false;
+      }
+      if (body.nfe === 'on') {
+        body.nfe = true;
+        body.nfeDirectory = body.nfeDirectory.replace(/\\/g, '/');
+        body.nfeDirectory = body.nfeDirectory.endsWith('/')
+          ? body.nfeDirectory
+          : body.nfeDirectory + '/';
+      } else {
+        body.nfe = false;
+      }
+
       client.merge(body);
       await client.save();
       session.flash({ success: 'Cliente atualizado com sucesso!' });

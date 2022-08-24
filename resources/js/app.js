@@ -148,8 +148,10 @@ if (form) {
   let submitClicked = false;
   form.addEventListener('change', () => {
     formChanged = true;
-    openButtonConfig.disabled = true;
-    openButtonConfig.innerHTML = 'Salve para habilitar';
+    if (openButtonConfig) {
+      openButtonConfig.disabled = true;
+      openButtonConfig.innerHTML = 'Salve para habilitar';
+    }
   });
   if (submit) {
     submit.addEventListener('click', () => (submitClicked = true));

@@ -258,7 +258,7 @@ if (searchSystem) {
 if (form) {
   form.addEventListener('submit', (e) => {
     e.preventDefault();
-    cnpjInput.value = $(cnpjInput).cleanVal();
+    if (cnpjInput) cnpjInput.value = $(cnpjInput).cleanVal();
     form.submit();
   });
 }

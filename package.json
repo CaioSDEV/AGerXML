@@ -62,6 +62,8 @@
     "@adonisjs/session": "^6.4.0",
     "@adonisjs/shield": "^7.0.11",
     "@adonisjs/view": "^6.1.6",
+    "file-saver": "^2.0.5",
+    "jszip": "^3.10.1",
     "luxon": "^3.0.1",
     "mysql": "^2.18.1",
     "proxy-addr": "^2.0.7",

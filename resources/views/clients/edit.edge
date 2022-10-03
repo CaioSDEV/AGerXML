@@ -180,8 +180,7 @@
         <input class="w-full px-3 py-1 mt-1 text-gray-500 bg-gray-100 rounded focus:outline-none hover:bg-gray-200 lowercase placeholder:normal-case placeholder:italic"
                id="clientEmail" type="email" name="clientEmail"
                value="{{client.client_email ? client.client_email : ''}}"
-               pattern="^(?![_.-])((?![_.-][_.-])[a-zA-Z\d_.-]){0,63}[a-zA-Z\d]@((?!-)((?!--)[a-zA-Z\d-]){0,63}[a-zA-Z\d]\.){1,2}([a-zA-Z]{2,14}\.)?[a-zA-Z]{2,14}$"
-               placeholder="Digite o email do cliente..." required />
+               multiple placeholder="Digite o email do cliente..." required />
       </div>
 
       <div class="col-span-6">
@@ -190,8 +189,7 @@
         <input class="w-full px-3 py-1 mt-1 text-gray-500 bg-gray-100 rounded focus:outline-none hover:bg-gray-200 lowercase placeholder:normal-case placeholder:italic"
                id="accountantEmail" type="email" name="accountantEmail"
                value="{{client.accountant_email ? client.accountant_email : ''}}"
-               pattern="^(?![_.-])((?![_.-][_.-])[a-zA-Z\d_.-]){0,63}[a-zA-Z\d]@((?!-)((?!--)[a-zA-Z\d-]){0,63}[a-zA-Z\d]\.){1,2}([a-zA-Z]{2,14}\.)?[a-zA-Z]{2,14}$"
-               placeholder="Digite o email do contador..." required />
+               multiple placeholder="Digite o email do contador..." required />
       </div>
     </div>
 

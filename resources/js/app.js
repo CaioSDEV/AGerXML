@@ -1,4 +1,9 @@
+import { saveAs } from 'file-saver';
+import JSZip from 'jszip';
+import { DateTime } from 'luxon';
 import '../css/app.css';
+
+const zip = new JSZip();
 
 const pdfButton = document.getElementById('pdf');
 const searchName = document.querySelector('#searchName');
@@ -278,26 +283,16 @@ function saveFile() {
     dirNFe: "${nfeDirectory}",
     nomecli: "${nameInput.value}",
     CNPJ: "${$(cnpjInput).cleanVal()}",
-    emailcont: "${accountantEmailInput.value}"
+    emailcont: "${accountantEmailInput.value.replaceAll(' ', '').replaceAll(',', ';')}"
   }`;
 
-  const textToBLOB = new Blob([data], { type: 'text/plain' });
-  const sFileName = 'config.js'; // The file to save the data.
-  let newLink = document.createElement('a');
+  const zipper = zip.folder('zipper');
+  zipper.file(`${DateTime.local().minus({ month: 1 }).toFormat('LL')}.txt`, '');
+  zipper.file('config.js', data);
 
-  newLink.download = sFileName;
-
-  if (window.webkitURL !== null) {
-    newLink.href = window.webkitURL.createObjectURL(textToBLOB);
-  } else {
-    newLink.href = window.URL.createObjectURL(textToBLOB);
-    newLink.style.display = 'none';
-    document.body.appendChild(newLink);
-  }
-
-  newLink.click();
-
-  configModal.classList.toggle('hidden');
+  zip.generateAsync({ type: 'blob' }).then((content) => {
+    saveAs(content, 'zipper.zip');
+  });
 }
 
 if (satCheckbox && nfeCheckbox) {

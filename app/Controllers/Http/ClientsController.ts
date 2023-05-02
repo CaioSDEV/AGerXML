@@ -1,13 +1,14 @@
 // import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 
-import Database from '@ioc:Adonis/Lucid/Database';
 import Client from 'App/Models/Client';
 import { DateTime } from 'luxon';
 
+import Database from '@ioc:Adonis/Lucid/Database';
+
 export default class ClientsController {
   public async daysToExpire(expiracy: number) {
-    const now = DateTime.fromISO(DateTime.now().toISODate());
-    const expiracyDate = DateTime.fromISO(DateTime.fromSeconds(expiracy).toISODate());
+    const now = DateTime.fromISO(DateTime.now().toISODate() as string);
+    const expiracyDate = DateTime.fromISO(DateTime.fromSeconds(expiracy).toISODate() as string);
     const diff = expiracyDate.diff(now, 'days').toObject();
     return diff.days;
   }
@@ -15,7 +16,7 @@ export default class ClientsController {
   public async index({ request, view, session }) {
     try {
       const page = request.input('page', 1);
-      const limit = 500;
+      const limit = 9999;
       const clients = await Database.from('clients').orderBy('id', 'desc').paginate(page, limit);
       clients.forEach((client) => {
         client.status =

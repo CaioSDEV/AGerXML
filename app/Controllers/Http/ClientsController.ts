@@ -47,6 +47,7 @@ export default class ClientsController {
       body.name = body.name.toUpperCase();
       body.corporateName = body.corporateName.toUpperCase();
       body.clientEmail = body.clientEmail.toLowerCase();
+      body.status = true;
       if (body.sat === 'on') {
         body.sat = true;
         body.satDirectory = body.satDirectory.replace(/\\/g, '/');
